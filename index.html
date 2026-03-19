@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Age Calculator with Clock</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: #fff;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    input {
+      padding: 10px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #ff6f61;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .result, .clock, .greeting {
+      margin-top: 30px;
+      font-size: 1.2rem;
+    }
+    .clock {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Colorful Age Calculator</h1>
+  
+  <div>
+    <label for="birthdate">Enter Your Birthdate:</label><br/>
+    <input type="date" id="birthdate" />
+    <br/>
+    <button onclick="calculateAge()">Calculate Age</button>
+  </div>
+
+  <div class="result" id="ageResult"></div>
+  <div class="greeting" id="greeting"></div>
+  <div class="clock" id="clock"></div>
+
+  <script>
+    function calculateAge() {
+      const birthdate = new Date(document.getElementById('birthdate').value);
+      const today = new Date();
+      let years = today.getFullYear() - birthdate.getFullYear();
+      let months = today.getMonth() - birthdate.getMonth();
+      let days = today.getDate() - birthdate.getDate();
+
+      if (days < 0) {
+        months--;
+        days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+      }
+
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      document.getElementById('ageResult').innerText = 
+        `Your Age is: ${years} Years, ${months} Months, and ${days} Days`;
+    }
+
+    function updateClock() {
+      const now = new Date();
+      let h = now.getHours();
+      let m = now.getMinutes();
+      let s = now.getSeconds();
+      let greeting = '';
+
+      if (h < 12) greeting = "Good Morning!";
+      else if (h < 18) greeting = "Good Afternoon!";
+      else greeting = "Good Evening!";
+
+      m = m < 10 ? '0' + m : m;
+      s = s < 10 ? '0' + s : s;
+
+      document.getElementById('clock').innerText = `${h}:${m}:${s}`;
+      document.getElementById('greeting').innerText = greeting;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock(); // run once at start
+  </script>
+
+</body>
+</html>
